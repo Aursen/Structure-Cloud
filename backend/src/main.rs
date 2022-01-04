@@ -16,12 +16,6 @@ use std::env;
 const LIMIT: usize = 5;
 
 #[derive(Deserialize)]
-struct QueryAvailability {
-    nb_bedrooms: i32,
-    nb_beds: i32,
-}
-
-#[derive(Deserialize)]
 struct QueryDisponibility {
     nb: i32,
     start: DateTime<Utc>,
@@ -37,6 +31,12 @@ struct QueryComments {
 struct QueryCheapest {
     start: DateTime<Utc>,
     end: DateTime<Utc>,
+}
+
+#[derive(Deserialize)]
+struct QueryAvailability {
+    nb_bedrooms: i32,
+    nb_beds: i32,
 }
 
 #[get("/api/disponibility")]
@@ -109,6 +109,14 @@ async fn average_scores(db: Data<DB>) -> Result<HttpResponse> {
     }
 }
 
+#[get("/api/listing/{id}/details")]
+async fn details(db: Data<DB>, id: web::Path<i32>) -> Result<HttpResponse> {
+    match db.get_details(*id).await {
+        Ok(r) => Ok(HttpResponse::Ok().json(r)),
+        _ => Ok(HttpResponse::BadRequest().finish()),
+    }
+}
+
 #[actix_web::main]
 async fn main() -> Result<(), std::io::Error> {
     dotenv::dotenv().ok();
@@ -129,6 +137,7 @@ async fn main() -> Result<(), std::io::Error> {
             .service(average_prices)
             .service(reviews_evolution)
             .service(average_scores)
+            .service(details)
             .service(Files::new("/", env::var("FRONT_PATH").unwrap()).index_file("index.html"))
             .default_service(web::route().to(HttpResponse::NotFound))
     })

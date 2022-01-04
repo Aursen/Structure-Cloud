@@ -57,7 +57,7 @@ impl DB {
         limit: usize,
     ) -> Result<Vec<Document>, Error> {
         let aggregate = [
-            doc! { "$match": {"date": {"$gte": start_date, "$lte": end_date}}},
+            doc! {"$match": {"date": {"$gte": start_date, "$lte": end_date}}},
             doc! {"$group": {"_id": "$listing_id", "date": {"$push": {"calendar": "$date"}}}},
             doc! {"$match": {"date": {"$size": 4} }},
         ];
@@ -84,7 +84,14 @@ impl DB {
         let mut calendar = self.find("calendar", doc! { "date": date }, None).await?;
         let mut details = self.aggregate("review_detailed", aggregate).await?;
 
-        merge_cursors(&mut details, "listing_id", &mut calendar, "_id", limit).await
+        merge_cursors(
+            &mut details,
+            "listing_id",
+            &mut calendar,
+            "listing_id",
+            limit,
+        )
+        .await
     }
 
     /// Cheapest available between two dates depending on the area
@@ -111,14 +118,31 @@ impl DB {
         let mut listing = self.aggregate("listing", aggregate1).await?;
         let mut calendar = self.aggregate("calendar", aggregate2).await?;
 
-        println!("{:?}", listing.try_next().await);
-        println!("{:?}", calendar.try_next().await);
+        let mut result: Vec<Document> = Vec::with_capacity(limit);
+        let vector: Vec<Document> = listing.try_collect().await?;
 
-        //merge_cursors(listing, "", cursor2, key2, nb)
+        // while let Some(c) = calendar.try_next().await? {
+        //     if result.len() >= result.capacity() {
+        //         break;
+        //     }
 
-        //TODO truc
+        //     if let Some(c_id) = c.get("_id") {
+        //         if let Some(d) = vector.iter().find(|x| {
+        //             x.get_array("price_list")
+        //                 .map(|p| {
+        //                     println!("{:?}", p);
+        //                     p.contains(c_id)
+        //                 })
+        //                 .unwrap_or(false)
+        //         })
+        //         //.contains(&doc! { "listing_id": c_id}))
+        //         {
+        //             result.push(d.to_owned());
+        //         }
+        //     }
+        // }
 
-        Ok(Vec::new())
+        Ok(result)
     }
 
     /// Availability to go with your couple of friends
@@ -200,5 +224,13 @@ impl DB {
         let mut docs = self.aggregate("listing_reviews", aggregate).await?;
 
         get_docs_from_cursor(&mut docs, limit).await
+    }
+
+    /// Gets details from an id
+    pub async fn get_details(&self, id: i32) -> Result<Option<Document>, Error> {
+        self.db
+            .collection::<Document>("listing_details")
+            .find_one(doc! { "id": id}, None)
+            .await
     }
 }
