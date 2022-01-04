@@ -32,7 +32,7 @@ impl DB {
     ) -> Result<Cursor<Document>, Error> {
         self.db
             .collection::<Document>(name)
-            .find(filter, None)
+            .find(filter, option)
             .await
     }
 
@@ -56,8 +56,6 @@ impl DB {
         end_date: DateTime<Utc>,
         limit: usize,
     ) -> Result<Vec<Document>, Error> {
-        let mut result: Vec<Document> = Vec::with_capacity(limit);
-
         let aggregate = [
             doc! { "$match": {"date": {"$gte": start_date, "$lte": end_date}}},
             doc! {"$group": {"_id": "$listing_id", "date": {"$push": {"calendar": "$date"}}}},
