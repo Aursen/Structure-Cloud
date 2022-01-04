@@ -76,24 +76,15 @@ impl DB {
         date: DateTime<Utc>,
         limit: usize,
     ) -> Result<Vec<Document>, Error> {
-        let result = Vec::new();
-
         let aggregate = [
             doc! {"$group": {"_id": "$listing_id", "date": {"$max": "$date"}, "doc": {"$first": "$$ROOT"}}},
             doc! {"$replaceRoot": {"newRoot": "$doc"}},
         ];
 
-        let mut cal_cursor = self.find("calendar", doc! { "date": date }, None).await?;
+        let mut calendar = self.find("calendar", doc! { "date": date }, None).await?;
         let mut details = self.aggregate("review_detailed", aggregate).await?;
 
-        let calendar: Vec<Document> = cal_cursor.try_collect().await?;
-
-        while let Some(c) = details.try_next().await? {
-            // if
-            // println!("{}", c);
-        }
-
-        Ok(result)
+        merge_cursors(&mut details, "listing_id", &mut calendar, "_id", limit).await
     }
 
     /// Cheapest available between two dates depending on the area
