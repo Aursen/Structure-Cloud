@@ -33,12 +33,12 @@ function Query4() {
               accessor: 'neighborhood',
             },
             {
-              Header: 'Property type',
-              accessor: 'property_type',
+              Header: 'Number of bedrooms',
+              accessor: 'bedrooms',
             },
             {
-              Header: 'Room type',
-              accessor: 'room_type',
+              Header: 'Nombre de lits',
+              accessor: 'beds',
             },
             {
               Header: 'Capacity',

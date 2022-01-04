@@ -33,8 +33,8 @@ function Query3() {
               accessor: 'room_type',
             },
             {
-              Header: 'Capacity',
-              accessor: 'accommodates',
+              Header: 'Price',
+              accessor: 'price',
             },
       ],
       []

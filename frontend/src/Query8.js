@@ -7,29 +7,37 @@ function Query8() {
   const columns = React.useMemo(
     () => [
           {
-            Header: 'Id',
-            accessor: 'id',
-          },
-          {
-            Header: 'Name',
-            accessor: 'name',
-          },
-          {
             Header: 'Neighborhood',
             accessor: 'neighborhood',
           },
           {
-            Header: 'Property type',
-            accessor: 'property_type',
+            Header: 'Average rating',
+            accessor: 'average_rating_score',
           },
           {
-            Header: 'Room type',
-            accessor: 'room_type',
+            Header: 'Average accuracy',
+            accessor: 'average_accuracy_score',
           },
           {
-            Header: 'Capacity',
-            accessor: 'accommodates',
+            Header: 'Average cleanliness',
+            accessor: 'average_cleanliness_score',
           },
+          {
+            Header: 'Average checink score',
+            accessor: 'average_checkin_score',
+          },
+          {
+            Header: 'Average communication score',
+            accessor: 'average_communication_score',
+          },
+          {
+            Header: 'Average location score',
+            accessor: 'average_location_score',
+          },
+          {
+            Header: 'Average score',
+            accessor: 'average_score_value',
+          }
     ],
     []
   )

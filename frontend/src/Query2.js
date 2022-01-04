@@ -18,21 +18,17 @@ function Query2() {
                 accessor: 'name',
               },
               {
-                Header: 'Neighborhood',
-                accessor: 'neighborhood',
+                Header: 'Review',
+                accessor: 'comment',
               },
               {
-                Header: 'Property type',
-                accessor: 'property_type',
+                Header: 'Date of the review',
+                accessor: 'date',
               },
               {
-                Header: 'Room type',
-                accessor: 'room_type',
-              },
-              {
-                Header: 'Capacity',
-                accessor: 'accommodates',
-              },
+                Header: 'Reviewer',
+                accessor: 'reviewer_name',
+              }
         ],
         []
       )

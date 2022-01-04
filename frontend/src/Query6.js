@@ -7,29 +7,17 @@ function Query6() {
   const columns = React.useMemo(
     () => [
           {
-            Header: 'Id',
-            accessor: 'id',
-          },
-          {
-            Header: 'Name',
-            accessor: 'name',
-          },
-          {
-            Header: 'Neighborhood',
-            accessor: 'neighborhood',
-          },
-          {
-            Header: 'Property type',
+            Header: 'Property Type',
             accessor: 'property_type',
           },
           {
-            Header: 'Room type',
-            accessor: 'room_type',
+            Header: 'Number of bedrooms',
+            accessor: 'bedrooms',
           },
           {
-            Header: 'Capacity',
-            accessor: 'accommodates',
-          },
+            Header: 'Prix moyen',
+            accessor: 'mean_price',
+          }
     ],
     []
   )

@@ -41,186 +41,100 @@ export function Table({ columns, data }) {
     )
   }
 
-export function get_Q1(startDate, endDate, capacity) {
-    return ([{
-        "index": 0,
-        "id": 6369,
-        "host_id": 13660,
-        "name": "Rooftop terrace room ,  ensuite bathroom",
-        "neighborhood": "Hispanoamérica",
-        "property_type": "Private room in apartment",
-        "room_type": "Private room",
-        "accommodates": 2,
-        "bathrooms": 1,
-        "bedrooms": 1,
-        "beds": 1,
-        "price": 60.0,
-        "minimum_nights": 1.0,
-        "maximum_nights": 1125.0,
-        "has_availability": true,
-        "availability_30": 30.0,
-        "instant_bookable": true
-    }]
-    )
+export async function get_Q1(startDate, endDate, capacity) {
+  let url = `localhost:8080/api/disponibility?nb=${capacity}&start=${startDate}&end=${endDate}`
+  let response = await fetch(url)
+  let data = await response.json();
+  return data
 }
 
-export function get_Q2(selectDate) {
-    return ([{
-        "index": 0,
-        "id": 6369,
-        "host_id": 13660,
-        "name": "Rooftop terrace room ,  ensuite bathroom",
-        "neighborhood": "Hispanoamérica",
-        "property_type": "Private room in apartment",
-        "room_type": "Private room",
-        "accommodates": 2,
-        "bathrooms": 1,
-        "bedrooms": 1,
-        "beds": 1,
-        "price": 60.0,
-        "minimum_nights": 1.0,
-        "maximum_nights": 1125.0,
-        "has_availability": true,
-        "availability_30": 30.0,
-        "instant_bookable": true
-    }]
-    )
+export async function get_Q2(selectDate) {
+  let url = `localhost:8080/api/comments?date=${selectDate}`
+  let response = await fetch(url)
+  let data = await response.json();
+    return data
 }
 
-export function get_Q3(startDate, endDate) {
-    return ([{
-        "index": 0,
-        "id": 6369,
-        "host_id": 13660,
-        "name": "Rooftop terrace room ,  ensuite bathroom",
-        "neighborhood": "Hispanoamérica",
-        "property_type": "Private room in apartment",
-        "room_type": "Private room",
-        "accommodates": 2,
-        "bathrooms": 1,
-        "bedrooms": 1,
-        "beds": 1,
-        "price": 60.0,
-        "minimum_nights": 1.0,
-        "maximum_nights": 1125.0,
-        "has_availability": true,
-        "availability_30": 30.0,
-        "instant_bookable": true
-    }]
-    )
+export async function get_Q3(startDate, endDate) {
+  let url = `localhost:8080/api/cheapest?tart=${startDate}&end=${endDate}`
+  let response = await fetch(url)
+  let data = await response.json();
+    return data
 }
 
-export function get_Q4(numroom, numpeople) {
-    return ([{
-        "index": 0,
-        "id": 6369,
-        "host_id": 13660,
-        "name": "Rooftop terrace room ,  ensuite bathroom",
-        "neighborhood": "Hispanoamérica",
-        "property_type": "Private room in apartment",
-        "room_type": "Private room",
-        "accommodates": 2,
-        "bathrooms": 1,
-        "bedrooms": 1,
-        "beds": 1,
-        "price": 60.0,
-        "minimum_nights": 1.0,
-        "maximum_nights": 1125.0,
-        "has_availability": true,
-        "availability_30": 30.0,
-        "instant_bookable": true
-    }]
-    )
+export async function get_Q4(numroom, numpeople) {
+  let url = `localhost:8080/api/availability?nb_bedrooms=${numroom}&nb_beds=${numpeople}`
+  let response = await fetch(url)
+  let data = await response.json();
+    return data
 }
 
-export function get_Q5() {
-    return ([{
-        "index": 0,
-        "id": 6369,
-        "host_id": 13660,
-        "name": "Rooftop terrace room ,  ensuite bathroom",
-        "neighborhood": "Hispanoamérica",
-        "property_type": "Private room in apartment",
-        "room_type": "Private room",
-        "accommodates": 2,
-        "bathrooms": 1,
-        "bedrooms": 1,
-        "beds": 1,
-        "price": 60.0,
-        "minimum_nights": 1.0,
-        "maximum_nights": 1125.0,
-        "has_availability": true,
-        "availability_30": 30.0,
-        "instant_bookable": true
-    }]
-    )
+export async function get_Q5() {
+  let url = `localhost:8080/api/adjusted_prices`
+  let response = await fetch(url)
+  let data = await response.json();
+    return data
 }
 
-export function get_Q6() {
-    return ([{
-        "index": 0,
-        "id": 6369,
-        "host_id": 13660,
-        "name": "Rooftop terrace room ,  ensuite bathroom",
-        "neighborhood": "Hispanoamérica",
-        "property_type": "Private room in apartment",
-        "room_type": "Private room",
-        "accommodates": 2,
-        "bathrooms": 1,
-        "bedrooms": 1,
-        "beds": 1,
-        "price": 60.0,
-        "minimum_nights": 1.0,
-        "maximum_nights": 1125.0,
-        "has_availability": true,
-        "availability_30": 30.0,
-        "instant_bookable": true
-    }]
-    )
+export  async function get_Q6() {
+  let url = `localhost:8080/api/average_prices`
+  let response = await fetch(url)
+  let data = await response.json();
+    return data
 }
 
-export function get_Q7() {
-    return ([{
-        "index": 0,
-        "id": 6369,
-        "host_id": 13660,
-        "name": "Rooftop terrace room ,  ensuite bathroom",
-        "neighborhood": "Hispanoamérica",
-        "property_type": "Private room in apartment",
-        "room_type": "Private room",
-        "accommodates": 2,
-        "bathrooms": 1,
-        "bedrooms": 1,
-        "beds": 1,
-        "price": 60.0,
-        "minimum_nights": 1.0,
-        "maximum_nights": 1125.0,
-        "has_availability": true,
-        "availability_30": 30.0,
-        "instant_bookable": true
-    }]
-    )
+export async function get_Q7() {
+  // let url = `localhost:8080/api/reviews_evolution`
+  // let response = await fetch(url)
+  // let data = await response.json();
+  //   return data
+  return ([
+    {
+        "_id":
+        {
+            "month_of_review": 12,
+            "year_of_review": 2019
+        },
+        "number_of_review": 17825
+    },
+    {
+        "_id":
+        {
+            "month_of_review": 4,
+            "year_of_review": 2018
+        },
+        "number_of_review": 12678
+    },
+    {
+        "_id":
+        {
+            "month_of_review": 6,
+            "year_of_review": 2014
+        },
+        "number_of_review": 845
+    },
+    {
+        "_id":
+        {
+            "month_of_review": 11,
+            "year_of_review": 2015
+        },
+        "number_of_review": 2561
+    },
+    {
+        "_id":
+        {
+            "month_of_review": 6,
+            "year_of_review": 2011
+        },
+        "number_of_review": 29
+    }
+])
 }
 
-export function get_Q8() {
-    return ([{
-        "index": 0,
-        "id": 6369,
-        "host_id": 13660,
-        "name": "Rooftop terrace room ,  ensuite bathroom",
-        "neighborhood": "Hispanoamérica",
-        "property_type": "Private room in apartment",
-        "room_type": "Private room",
-        "accommodates": 2,
-        "bathrooms": 1,
-        "bedrooms": 1,
-        "beds": 1,
-        "price": 60.0,
-        "minimum_nights": 1.0,
-        "maximum_nights": 1125.0,
-        "has_availability": true,
-        "availability_30": 30.0,
-        "instant_bookable": true
-    }]
-    )
+export async function get_Q8() {
+  let url = `localhost:8080/api/average_scores`
+  let response = await fetch(url)
+  let data = await response.json();
+    return data
 }

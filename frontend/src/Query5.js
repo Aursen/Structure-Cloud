@@ -19,17 +19,13 @@ function Query5() {
             accessor: 'neighborhood',
           },
           {
-            Header: 'Property type',
-            accessor: 'property_type',
+            Header: 'Defined Price',
+            accessor: 'price',
           },
           {
-            Header: 'Room type',
-            accessor: 'room_type',
-          },
-          {
-            Header: 'Capacity',
-            accessor: 'accommodates',
-          },
+            Header: 'Adjusted Price',
+            accessor: 'adjusted_price',
+          }
     ],
     []
   )
