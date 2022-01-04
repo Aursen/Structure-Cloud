@@ -71,7 +71,11 @@ impl DB {
     }
 
     /// Most recent comment for all available properties on a date
-    pub async fn request_2(&self, date: DateTime<Utc>) -> Result<Vec<Document>, Error> {
+    pub async fn get_comments(
+        &self,
+        date: DateTime<Utc>,
+        limit: usize,
+    ) -> Result<Vec<Document>, Error> {
         let result = Vec::new();
 
         let aggregate = [
@@ -92,10 +96,12 @@ impl DB {
         Ok(result)
     }
 
-    pub async fn request_3(
+    /// Cheapest available between two dates depending on the area
+    pub async fn get_cheapest(
         &self,
         start: DateTime<Utc>,
         end: DateTime<Utc>,
+        limit: usize,
     ) -> Result<Vec<Document>, Error> {
         let aggregate1 = [
             doc! {"$group": {"_id": "$neighborhood", "price_list": {"$push": {"listing_id": "$id", "price": "$price"}}}},

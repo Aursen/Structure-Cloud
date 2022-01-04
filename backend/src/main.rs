@@ -16,6 +16,12 @@ use std::env;
 const LIMIT: usize = 5;
 
 #[derive(Deserialize)]
+struct QueryAvailability {
+    nb_bedrooms: i32,
+    nb_beds: i32,
+}
+
+#[derive(Deserialize)]
 struct QueryDisponibility {
     nb: i32,
     start: DateTime<Utc>,
@@ -23,12 +29,17 @@ struct QueryDisponibility {
 }
 
 #[derive(Deserialize)]
-struct QueryAvailability {
-    nb_bedrooms: i32,
-    nb_beds: i32,
+struct QueryComments {
+    date: DateTime<Utc>,
 }
 
-#[get("/disponibility")]
+#[derive(Deserialize)]
+struct QueryCheapest {
+    start: DateTime<Utc>,
+    end: DateTime<Utc>,
+}
+
+#[get("/api/disponibility")]
 async fn disponibility(db: Data<DB>, data: web::Query<QueryDisponibility>) -> Result<HttpResponse> {
     match db
         .get_disponibility(data.nb, data.start, data.end, LIMIT)
@@ -39,7 +50,23 @@ async fn disponibility(db: Data<DB>, data: web::Query<QueryDisponibility>) -> Re
     }
 }
 
-#[get("/availability")]
+#[get("/api/comments")]
+async fn comments(db: Data<DB>, data: web::Query<QueryComments>) -> Result<HttpResponse> {
+    match db.get_comments(data.date, LIMIT).await {
+        Ok(r) => Ok(HttpResponse::Ok().json(r)),
+        _ => Ok(HttpResponse::BadRequest().finish()),
+    }
+}
+
+#[get("/api/cheapest")]
+async fn cheapest(db: Data<DB>, data: web::Query<QueryCheapest>) -> Result<HttpResponse> {
+    match db.get_cheapest(data.start, data.end, LIMIT).await {
+        Ok(r) => Ok(HttpResponse::Ok().json(r)),
+        _ => Ok(HttpResponse::BadRequest().finish()),
+    }
+}
+
+#[get("/api/availability")]
 async fn availability(db: Data<DB>, data: web::Query<QueryAvailability>) -> Result<HttpResponse> {
     match db
         .get_availability(data.nb_bedrooms, data.nb_beds, LIMIT)
@@ -50,7 +77,7 @@ async fn availability(db: Data<DB>, data: web::Query<QueryAvailability>) -> Resu
     }
 }
 
-#[get("/adjusted_prices")]
+#[get("/api/adjusted_prices")]
 async fn adjusted_prices(db: Data<DB>) -> Result<HttpResponse> {
     match db.get_adjusted_prices(LIMIT).await {
         Ok(r) => Ok(HttpResponse::Ok().json(r)),
@@ -58,7 +85,7 @@ async fn adjusted_prices(db: Data<DB>) -> Result<HttpResponse> {
     }
 }
 
-#[get("/average_prices")]
+#[get("/api/average_prices")]
 async fn average_prices(db: Data<DB>) -> Result<HttpResponse> {
     match db.get_average_prices(LIMIT).await {
         Ok(r) => Ok(HttpResponse::Ok().json(r)),
@@ -66,7 +93,7 @@ async fn average_prices(db: Data<DB>) -> Result<HttpResponse> {
     }
 }
 
-#[get("/reviews_evolution")]
+#[get("/api/reviews_evolution")]
 async fn reviews_evolution(db: Data<DB>) -> Result<HttpResponse> {
     match db.get_reviews_evolution(LIMIT).await {
         Ok(r) => Ok(HttpResponse::Ok().json(r)),
@@ -74,7 +101,7 @@ async fn reviews_evolution(db: Data<DB>) -> Result<HttpResponse> {
     }
 }
 
-#[get("/average_scores")]
+#[get("/api/average_scores")]
 async fn average_scores(db: Data<DB>) -> Result<HttpResponse> {
     match db.get_average_scores(LIMIT).await {
         Ok(r) => Ok(HttpResponse::Ok().json(r)),
@@ -95,6 +122,8 @@ async fn main() -> Result<(), std::io::Error> {
             .app_data(Data::new(db.to_owned()))
             .wrap(Logger::default())
             .service(disponibility)
+            .service(comments)
+            .service(cheapest)
             .service(availability)
             .service(adjusted_prices)
             .service(average_prices)
