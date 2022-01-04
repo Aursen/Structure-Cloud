@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './App.css';
+import {Table, get_Q1} from './api_query.js'
 
 function Query1() {
   const [dateRange, setDateRange] = useState([null, null]);
@@ -19,6 +20,38 @@ function Query1() {
 
   const [numpeople, setNumpeople] = useState(1);
   let cat_options = display_cap()
+
+  const columns = React.useMemo(
+    () => [
+          {
+            Header: 'Id',
+            accessor: 'id',
+          },
+          {
+            Header: 'Name',
+            accessor: 'name',
+          },
+          {
+            Header: 'Neighborhood',
+            accessor: 'neighborhood',
+          },
+          {
+            Header: 'Property type',
+            accessor: 'property_type',
+          },
+          {
+            Header: 'Room type',
+            accessor: 'room_type',
+          },
+          {
+            Header: 'Capacity',
+            accessor: 'accommodates',
+          },
+    ],
+    []
+  )
+
+  const data = React.useMemo(() => get_Q1(startDate, endDate, numpeople), [] )
   return (
     <div className="Query1">
       <h3> Disponibilité entre deux dates en fonctions du nombre de personnes :</h3>
@@ -47,7 +80,7 @@ function Query1() {
         </div>
       </section>
       <div>
-          Résultats
+        <Table columns={columns} data={data} />
       </div>
     </div>
   );

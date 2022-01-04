@@ -1,10 +1,43 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import DatePicker from 'react-datepicker';
 import "react-datepicker/dist/react-datepicker.css";
 import './App.css';
+import {Table, get_Q2} from './api_query.js'
 
 function Query2() {
     const [dateselect, setDateselect] = useState(new Date());
+
+    const columns = React.useMemo(
+        () => [
+              {
+                Header: 'Id',
+                accessor: 'id',
+              },
+              {
+                Header: 'Name',
+                accessor: 'name',
+              },
+              {
+                Header: 'Neighborhood',
+                accessor: 'neighborhood',
+              },
+              {
+                Header: 'Property type',
+                accessor: 'property_type',
+              },
+              {
+                Header: 'Room type',
+                accessor: 'room_type',
+              },
+              {
+                Header: 'Capacity',
+                accessor: 'accommodates',
+              },
+        ],
+        []
+      )
+    
+      const data = React.useMemo(() => get_Q2(dateselect), [] )
 
     return(
         <div className='Query2'>
@@ -21,6 +54,9 @@ function Query2() {
                 />
                 </div>
             </section>
+            <div>
+                <Table columns={columns} data={data}/>
+            </div>
         </div>
     )
 }

@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import "react-datepicker/dist/react-datepicker.css";
 import './App.css';
-
+import {Table, get_Q4} from './api_query.js'
 
 function Query4() {
     function display_cap() {
@@ -17,6 +17,40 @@ function Query4() {
     const [numpeople, setNumpeople] = useState(1);
     let room_options = display_cap()
     let cap_options = display_cap()
+
+    const columns = React.useMemo(
+      () => [
+            {
+              Header: 'Id',
+              accessor: 'id',
+            },
+            {
+              Header: 'Name',
+              accessor: 'name',
+            },
+            {
+              Header: 'Neighborhood',
+              accessor: 'neighborhood',
+            },
+            {
+              Header: 'Property type',
+              accessor: 'property_type',
+            },
+            {
+              Header: 'Room type',
+              accessor: 'room_type',
+            },
+            {
+              Header: 'Capacity',
+              accessor: 'accommodates',
+            },
+      ],
+      []
+    )
+  
+    const data = React.useMemo(() => get_Q4(numroom, numpeople), [] )
+
+
     return (
       <div className="Query4">
         <h3> Disponibilité pour partir avec votre couple d'amis :</h3>
@@ -39,7 +73,7 @@ function Query4() {
           </div>
         </section>
         <div>
-            Résultats
+          <Table columns={columns} data={data}/>
         </div>
       </div>
     );
