@@ -51,7 +51,6 @@ function Query8() {
         <section id='query-8' className = 'query-container'>
         </section>
         <div>
-          <Table columns={columns} data={data}/>
         </div>
       </div>
     );

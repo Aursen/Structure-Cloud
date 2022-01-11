@@ -60,3 +60,20 @@ h3 {
     transform: rotate(360deg);
   }
 }
+
+Table {
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  text-align: center;
+}
+
+#pagination {
+  text-align:center;
+  position:relative;
+}
+
+button {
+  margin-left: auto;
+  margin-right: auto;
+}

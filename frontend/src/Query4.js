@@ -73,7 +73,6 @@ function Query4() {
           </div>
         </section>
         <div>
-          <Table columns={columns} data={data}/>
         </div>
       </div>
     );
